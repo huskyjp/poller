@@ -1,7 +1,8 @@
 import { User } from "../entities/User";
 import { MyContext } from "src/types";
-import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from "type-graphql";
+import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver } from "type-graphql";
 import argon2 from 'argon2';
+import { ReplaceFieldWithFragment } from "apollo-server-express";
 
 // ここにClassを定義するとResolverの中が見やすくなる
 @InputType()
@@ -35,10 +36,24 @@ class UserResponse{
 // Resolverではinputされるデータの取り扱い方を定義する
 @Resolver()
 export class UserResolver {
+  // return current user if logged in
+  @Query(() => User, { nullable: true })
+  async me(
+    @Ctx() { req, em }: MyContext
+  ) {
+    // not logged in
+    if (!req.session.UserID) {
+      return null
+    }
+
+    const user = await em.findOne(User, { id: req.session.UserID });
+    return user;
+  }
+
   @Mutation(() => UserResponse)
   async register(
     @Arg("options", () => UsernamePasswordInput ) options: UsernamePasswordInput,
-    @Ctx() { em }: MyContext
+    @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
 
     if (options.username.length <= 2) {
@@ -80,6 +95,8 @@ export class UserResolver {
       }
       console.log('message: ', e);
     }
+
+    req.session.UserID = user.id;
     return {
       user,
     };
