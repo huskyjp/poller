@@ -2,7 +2,6 @@ import { __prod__ } from "./constants";
 import { Post } from "./entities/Post";
 import {MikroORM} from "@mikro-orm/core";
 import path from "path";
-import { dirname } from "path/posix";
 
 export default {
   migrations: {
