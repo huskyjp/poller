@@ -10,6 +10,11 @@ import { PostResolver } from "./resolvers/post";
 import { Post } from "./entities/Post";
 import { UserResolver } from "./resolvers/user";
 
+// redis
+import redis from 'redis';
+import session from 'express-session';
+import connectRedis from 'connect-redis';
+
 
 const main = async () => {
   const app = express();
@@ -17,12 +22,27 @@ const main = async () => {
   const orm = await MikroORM.init(microConfig);
   // do migration everytime
   await orm.getMigrator().up();
-  // const post = orm.em.create(Post, {title: 'my first post from'});
-  // await orm.em.persistAndFlush(post);
-  // await orm.em.nativeInsert(Post, {title: 'my first post 2'});
 
-  const posts = await orm.em.find(Post, {});
-  console.log(posts);
+  const RedisStore = connectRedis(session);
+  const redisClient = redis.createClient();
+
+
+  app.use(
+    session({
+      name: 'qid',
+      store: new RedisStore({ client: redisClient, disableTouch: true}),
+      cookie: {
+        // 10 years last
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+        httpOnly: true,
+        sameSite: "lax",
+        // secure: __prod__
+      },
+      secret: "heyyo",
+      resave: false,
+      saveUninitialized: false,
+    })
+  );
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
@@ -30,7 +50,7 @@ const main = async () => {
       validate: false,
     }),
     // context => to access orm object from inside
-    context: () => ({ em: orm.em })
+    context: ({ req, res }) => ({ em: orm.em, req, res }),
   });
 
   apolloServer.applyMiddleware({ app });
