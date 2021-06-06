@@ -7,7 +7,6 @@ import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
-import { Post } from "./entities/Post";
 import { UserResolver } from "./resolvers/user";
 
 // redis
@@ -53,7 +52,8 @@ const main = async () => {
     context: ({ req, res }) => ({ em: orm.em, req, res }),
   });
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: { origin: "http://localhost:3000"},
+  });
 
   app.listen(4000, () => {
     console.log("server started on localhost:4000");
