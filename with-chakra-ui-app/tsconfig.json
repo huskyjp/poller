@@ -25,5 +25,8 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "alias": {
+    "react": "path.resolve('./node_modules/react')"
+  }
 }
