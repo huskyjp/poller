@@ -25,15 +25,15 @@ const main = async () => {
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient();
 
-
+  // cookie setting
   app.use(
     session({
       name: 'qid',
-      store: new RedisStore({ client: redisClient, disableTouch: true}),
+      store: new RedisStore({ client: redisClient, disableTouch: true}), // to set cookie alive length
       cookie: {
         // 10 years last
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
-        httpOnly: true,
+        httpOnly: true, // prevent access from client
         sameSite: "lax",
         // secure: __prod__
       },

@@ -81,6 +81,7 @@ export class UserResolver {
     // const user = em.create(User, { username: options.username, password: hashedPassword });
     let user;
     try {
+      // createQueryBuilder for User Entity -> User Knex -> INSERT -> Database!
       const result = await (em as EntityManager).createQueryBuilder(User).getKnexQuery().insert({
         username: options.username,
         password: hashedPassword,
@@ -139,7 +140,7 @@ export class UserResolver {
       ],
     };
     }
-
+    // store userID using session (cookie)
     req.session!.UserID = user.id;
 
     // ObjectTypeをreturnする

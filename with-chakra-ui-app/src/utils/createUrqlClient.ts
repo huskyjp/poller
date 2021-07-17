@@ -6,7 +6,7 @@ import { betterUpdateQuery } from "./betterUpdateQuery";
 export const createurqlClient = (ssrExchange: any) => ({
   url: "localhost:4000/graphql",
   fetchOptions: {
-    credentials: "include",
+    credentials: "include" as const,
   },
   exchanges: [
     dedupExchange,
@@ -57,6 +57,7 @@ export const createurqlClient = (ssrExchange: any) => ({
         },
       },
     }),
+    ssrExchange,
     fetchExchange,
   ],
 })

@@ -13,11 +13,11 @@ const Register: React.FC<registerProps> = ({}) => {
   // hooks to handle registration change
   // const [, register] = useMutation(REGISTER_MUT);
   const router = useRouter();
-  const [, register] = useRegisterMutation(); // custom hook from generator
+  const [, register] = useRegisterMutation(); // custom hook from generator and get GrahQL Mutation Code
   return (
     <Wrapper variant="small">
       <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={{ username: "", password: "" }} // {{}} -> passing objects by{}
         onSubmit={async (values, { setErrors }) => {
           console.log(values);
           // function to handle when user click register

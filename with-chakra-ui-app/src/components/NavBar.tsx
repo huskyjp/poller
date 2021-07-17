@@ -13,7 +13,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   // data is currently loading
   if (fetching) {
     body = null;
-    // user is not logged in yer
+    // user is not logged in yet
   } else if (!data?.me) {
     <>
       <NextLink href="/login">
