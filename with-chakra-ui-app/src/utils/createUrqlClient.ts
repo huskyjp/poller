@@ -3,7 +3,7 @@ import { cacheExchange } from "@urql/exchange-graphcache";
 import { LogoutMutation, MeQuery, MeDocument, LoginMutation, RegisterMutation } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 
-export const createurqlClient = (ssrExchange: any) => ({
+export const createUrqlClient = (ssrExchange: any) => ({
   url: "localhost:4000/graphql",
   fetchOptions: {
     credentials: "include" as const,
