@@ -1,7 +1,7 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 import { ObjectType, Field } from "type-graphql";
 
-// entitiesではinputされるデータタイプClassの中身の型を定義する
+// entitiesではClinetからリクエストされるデータタイプを定義する
 // to convert the class into graphql object
 @ObjectType()
 @Entity()
@@ -25,4 +25,8 @@ export class User {
   @Field()
   @Property({ type: "text" })
   password!: string;
+
+  @Field()
+  @Property({ type: "text", unique: true })
+  email!: string;
 }
