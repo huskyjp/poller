@@ -4,7 +4,7 @@ import { LogoutMutation, MeQuery, MeDocument, LoginMutation, RegisterMutation } 
 import { betterUpdateQuery } from "./betterUpdateQuery";
 
 export const createUrqlClient = (ssrExchange: any) => ({
-  url: "localhost:4000/graphql",
+  url: "http://localhost:4000/graphql",
   fetchOptions: {
     credentials: "include" as const,
   },
