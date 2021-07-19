@@ -16,6 +16,8 @@ const Login: React.FC<loginProps> = ({}) => {
   // const [, login] = useMutation(REGISTER_MUT);
   const router = useRouter();
   const [, login] = useLoginMutation(); // custom hook from generator
+  console.log("HEY");
+
   return (
     <Wrapper variant="small">
       <Formik
