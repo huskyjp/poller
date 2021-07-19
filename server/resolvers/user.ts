@@ -36,6 +36,14 @@ class UserResponse{
 // Resolverではinputされるデータの取り扱い方を定義する
 @Resolver()
 export class UserResolver {
+
+  @Mutation(() => Boolean)
+  async forgotPassword(@Arg("email") email: string, @Ctx() {  }: MyContext) {
+    console.log(email);
+    return true;
+  }
+
+
   // return current user if logged in
   @Query(() => User, { nullable: true })
   async me(
