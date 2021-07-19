@@ -13,12 +13,17 @@ import { UserResolver } from "./resolvers/user";
 import redis from 'redis';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
+// import { sendEmail } from "./utils/sendEmail";
+import { User } from "./entities/User";
 
 
 const main = async () => {
+  // sendEmail("husky@husky.com", "husky world");
+
   const app = express();
   // connect to DB
   const orm = await MikroORM.init(microConfig);
+  await orm.em.nativeDelete(User, {});
   // do migration everytime
   await orm.getMigrator().up();
 
